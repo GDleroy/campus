@@ -1,6 +1,6 @@
 # campus
 
-### 1、cd github(github为要上传的文件目录)
+###### 1、cd github(github为要上传的文件目录)
 ### 2、git init （要事先安装git工具）
 ### 3、git add . (.不能忘记，add后面有个空格)（将项目添加到仓库）
 ### 4、git commit -m "注释语句"  （将项目托管给仓库）
