@@ -1,5 +1,17 @@
 # campus
 
+### 注意事项： 如果aspect类报错， 缺少依赖<dependency>
+ <groupId>aspectj</groupId>
+ <artifactId>aspectjweaver</artifactId>
+ <version>1.9.5</version>
+    </dependency>
+
+
+
+
+
+
+
 ### 1、cd github(github为要上传的文件目录)
 ### 2、git init （要事先安装git工具）
 ### 3、git add . (.不能忘记，add后面有个空格)（将项目添加到仓库）
