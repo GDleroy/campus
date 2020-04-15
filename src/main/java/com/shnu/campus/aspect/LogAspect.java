@@ -42,19 +42,19 @@ public class LogAspect {
 
     @AfterReturning(returning = "result",pointcut = "log()")
     public void doAfterReturn(Object result){
-        logger.info(" Result:{} "+result);
+        logger.info(" Result:{} ", result);
     }
 
     private class RequestLog{
         private String ip;
         private String url;
-        private String classMethed;
+        private String classMethod;
         private Object[] args;
 
-        public RequestLog(String ip, String url, String classMethed, Object[] args) {
+        public RequestLog(String ip, String url, String classMethod, Object[] args) {
             this.ip = ip;
             this.url = url;
-            this.classMethed = classMethed;
+            this.classMethod = classMethod;
             this.args = args;
         }
 
@@ -63,7 +63,7 @@ public class LogAspect {
             return "{" +
                     "ip='" + ip + '\'' +
                     ", url='" + url + '\'' +
-                    ", classMethed='" + classMethed + '\'' +
+                    ", classMethod='" + classMethod + '\'' +
                     ", args=" + Arrays.toString(args) +
                     '}';
         }

@@ -1,11 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登陆页</title>
+    <!--使用bootstrap之前 要先引用JQUERY-->
+    <script src="./js/jquery.min.js" type="text/javascript"></script>
+    <!-- Bootstrap core CSS -->
+    <script src="./js/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="./js/login.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+
 </head>
 <body>
-    <h2>首页</h2>
+    <form class="form-signin" th:action="@{/loginPost}" method="post">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="./img/img79.ico" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">CAMPUS</h1>
+    </div>
 
+    <div class="form-label-group">
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+        <label for="inputUsername">Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="密码" required>
+        <label for="inputPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="loginBtn">Sign in</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2020 上海师范大学美如画团队</p>
+</form>
 </body>
 </html>

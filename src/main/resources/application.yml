@@ -2,7 +2,7 @@ spring:
   thymeleaf:
     mode: HTML
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/campus?useUnicode=true&characterEncoding=UTF-8
     username: test
     password: GDleroy_123
