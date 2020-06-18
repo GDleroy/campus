@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="./static/css/me.css">
+    <style>p.indent{ padding-left: 5em }</style>
+
+    <!--bootstrap-->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<!--导航-->
+<nav th:replace="_fragments :: menu(3)" class="ui inverted attached segment m-padded-tb-fit">
+
+</nav>
+<!--中间内容-->
+<div class="m-container m-padded-tb-massive">
+    <div class="ui container">
+        <div class="ui top attached segment m-padded-tb-big m-padded-lr-responsive">
+            <img class="ui centered medium bordered circular image" src="./img/logo.ico" style="width: 120px">
+            <br>
+            <div class="content">
+                <h3 class="ui centered header" style="font-size: x-large; color: #00a8c6" th:text="${session.user.username}">校 点</h3>
+                <div class="ui basic center aligned segment" style="font-size: 12px">
+                    个人说明：<span th:text="${user.info}">我欲穿花寻路，直入白云深处，浩气展虹霓。</span>
+                </div>
+                <div class="ui three attached teal item menu m-padded-lr-responsive-small">
+                    <a class="item">我参与的<i style="font-size: x-large" th:text="${#arrays.length(meJoin.content)}">2</i></a>
+                    <a class="item">参加我的活动<i style="font-size: x-large" th:text="${#arrays.length(join.content)}">1</i></a>
+                    <a class="item">已发布的活动<i style="font-size: x-large" th:text="${#arrays.length(page.content)}">5</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">恭喜，操作成功！</p>
+        </div>
+        <div class="ui teal bottom attached segment m-padded-tb-big m-padded-lr-responsive">
+            <div class="ui grid">
+                <!-------左边列表-->
+                <div class="three wide column">
+                    <div class="ui vertical pointing menu" style="font-size: 14px">
+                        <a class="item active" data-tab="first">
+                            <i class="ui folder open outline icon"></i>我的活动行
+                        </a>
+                        <a class="item" data-tab="second">
+                            参加我的活动<i class="ui star outline icon"></i>
+                        </a>
+                        <a class="item" data-tab="third">
+                            我参与的<i class="ui folder outline icon"></i>
+                        </a>
+                        <a class="item" data-tab="four">
+                            个人信息<i class="ui user outline icon"></i>
+                        </a>
+                        <a class="item" data-tab="five">
+                            账户设置<i class="ui sun outline icon"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-------右边活动-->
+                <div class="thirteen wide stretched column">
+                    <div class="ui fluid tab segment active" data-tab="first">
+                        <p  class="m-margin-top-small m-padded-lr-responsive-small" style="font-size: x-large"><i class="angle double right icon"></i> 我的活动行</p>
+                        <div class="ui fitted divider"></div>
+                        <div class="ui items m-padded-lr-responsive-small m-margin-top-larger margin-bottom" th:each="activity : ${page.content}">
+                            <div class="item" >
+                                <div class="image" >
+                                    <img src="#" th:src="${activity.picture}" height="40">
+                                </div>
+                                <div class="content">
+                                    <a class="header" style="font-size: 14px" th:text="${activity.activityTitle}">金砖国家统计局长会议——志愿者招募</a>
+                                    <div class="description">
+                                        <span class="m-line-height-small m-text-lined" style="font-size: 12px" th:text="${activity.description}">
+                                            金砖国家系列部长级会议在杭州举行，我校承担了通信部长会议、工业部长会议和统计局长会议的志愿服务工作，服务时长8904小时，来宾接机、引导、迎宾、安检等多项工作。
+                                        </span>
+                                    </div>
+                                    <div class="meta">
+                                        <p style="font-size: 12px" th:text="${activity.endDate}"><i class="calendar plus outline icon"></i>2018-07~2018-08</p>
+                                    </div>
+                                    <div class="m-margin-bottom-small">
+                                        <a href="#" th:href="@{/activity/{id}/delete(id=${activity.id})}" class="ui right mini red basic button">删除</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="ui fitted divider"></div>
+                            <br>
+                        </div>
+                        <br>
+                        <div class="ui inverted divider"></div>
+                        <div class="ui container">
+                            <div class="ui middle aligned two column grid m-padded-left-right m-padded-tb-large">
+                                <div class="column">
+                                    <a href="#" class="ui mini teal basic button">上一页</a>
+                                </div>
+                                <div class="right aligned column">
+                                    <a href="#" class="ui mini teal basic button">下一页</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui fluid tab segment" data-tab="second">
+                        <p class="m-margin-top-small m-padded-lr-responsive-small" style="font-size: x-large"><i class="angle double right icon"></i>参与我的活动</p>
+                        <div class="ui fitted divider"></div>
+                        <br>
+                        <div class="ui bottom attached tab container active" data-tab="six">
+                            <table class="ui striped table">
+                                <thead class="full-width">
+                                <tr class="center aligned">
+                                    <th>活动标题</th>
+                                    <th>报名姓名</th>
+                                    <th>联系方式</th>
+                                    <th>报名时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="center aligned" th:each="join : ${join.content}">
+                                    <td class="middle aligned" th:text="${join.activityTitle}">金砖国家统计局长会议——志愿者招募</td>
+                                    <td class="middle aligned" th:text="${join.username}">乐华</td>
+                                    <td class="middle aligned" th:text="${join.email}">123@qq.com</td>
+                                    <td class="middle aligned" th:text="${join.createTime}">2018-06-10 18:00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <div class="ui inverted divider"></div>
+                        <div class="ui container">
+                            <div class="ui middle aligned two column grid m-padded-left-right m-padded-tb-large">
+                                <div class="column">
+                                    <a href="#" class="ui mini teal basic button">上一页</a>
+                                </div>
+                                <div class="right aligned column">
+                                    <a href="#" class="ui mini teal basic button">下一页</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
+                    </div>
+                    <div class="ui fluid tab segment" data-tab="third">
+                        <p class="m-margin-top-small m-padded-lr-responsive-small" style="font-size: x-large"><i class="angle double right icon"></i> 我参与的</p>
+                        <div class="ui inverted divider"></div>
+                        <div class="ui bottom attached tab container active">
+                            <div class="ui items m-padded-lr-responsive-small m-margin-top-small">
+                                <table class="ui striped table">
+                                    <thead class="full-width">
+                                    <tr class="center aligned">
+                                        <th>活动ID</th>
+                                        <th>活动标题</th>
+                                        <th>举办人</th>
+                                        <th>报名时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="center aligned" th:each="meJoin : ${meJoin.content}">
+                                        <td class="middle aligned" th:text="${meJoin.activityId}">1</td>
+                                        <td class="middle aligned" th:text="${meJoin.activityTitle}">标题</td>
+                                        <td class="middle aligned" th:text="${meJoin.name}">Leroy</td>
+                                        <td class="middle aligned" th:text="${meJoin.createTime}">2018-06-10 18:00</td>
+                                        <td class="middle aligned">
+                                            <a href="#" th:href="@{/apply/{id}/delete(id=${meJoin.activityId})}" class="ui mini red basic button">删除</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="ui inverted divider"></div>
+                                <div class="ui container">
+                                    <div class="ui middle aligned two column grid m-padded-left-right m-padded-tb-large">
+                                        <div class="column">
+                                            <a href="#" class="ui mini teal basic button">上一页</a>
+                                        </div>
+                                        <div class="right aligned column">
+                                            <a href="#" class="ui mini teal basic button">下一页</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui fluid tab segment" data-tab="four">
+                        <p class="m-margin-top-small m-padded-lr-responsive-small" style="font-size: x-large"><i class="angle double right icon"></i>个人信息</p>
+                        <div class="ui fitted divider"></div>
+                        <div class="ui bottom attached tab container active">
+                            <div class="ui items m-padded-lr-responsive-small m-margin-top-small">
+                                <table class="ui striped table">
+                                    <thead class="full-width">
+                                    <tr class="center aligned">
+                                        <th>用户ID</th>
+                                        <th>用户姓名</th>
+                                        <th>个人说明</th>
+                                        <th>邮箱</th>
+                                        <th>头像</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="center aligned">
+                                        <td class="middle aligned">1</td>
+                                        <td class="middle aligned" th:text="${user.username}">用户姓名</td>
+                                        <td class="middle aligned" th:text="${user.info}">Leroy</td>
+                                        <td class="middle aligned" th:text="${user.email}">123@123.com</td>
+                                        <td class="middle aligned"><img src="#" th:src="${user.avatar}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="ui fluid tab segment" data-tab="five">
+                        <p class="m-margin-top-small m-padded-lr-responsive-small" style="font-size: x-large"><i class="angle double right icon"></i> 账户设置</p>
+                        <div class="ui fitted divider"></div>
+                        <br>
+                        <br>
+                        <form id="user-form" action="#" th:object="${user}" th:action="@{/me}" method="post" class="ui form m-padded-lr-responsive-small" enctype="multipart/form-data">
+                            <div class="required field m-padded-tb">
+                                <div class="ui left labeled input m-container-form">
+                                    <label class="ui teal basic label m-text-form">头像</label>
+                                    <input type="file" class="m-text-form" name="file"  placeholder="请上传头像">
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" th:value="${session.user.id}">
+                            <div class="two fields m-padded-tb">
+                                <div class="required field m-padded-tb">
+                                    <div class="ui left labeled input">
+                                        <div class="ui selection compact teal basic label m-container-form ">
+                                            <div class="text m-text-form">用户名</div>
+                                        </div>
+                                        <input type="text" name="username" placeholder="用户名应在5个字以内" th:value="*{username}">
+                                    </div>
+                                </div>
+                                <div class="required field m-padded-tb">
+                                    <div class="ui left labeled input">
+                                        <div class="ui selection compact teal basic label m-container-form ">
+                                            <div class="text m-text-form">邮箱</div>
+                                        </div>
+                                        <input type="email" name="email" placeholder="注意格式" th:value="*{email}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="required field m-padded-tb">
+                                <div class="ui left labeled input">
+                                    <div class="ui selection compact teal basic label m-container-form ">
+                                        <input type="hidden" value="个人说明" name="flag" th:value="*{info}" >
+                                        <div class="text m-text-form">个人说明</div>
+                                    </div>
+                                    <input type="text" name="info" placeholder="个人说明应在20个字以内" th:value="*{info}">
+                                </div>
+                            </div>
+                            <div class="two fields m-padded-tb">
+                                <div class="required field m-padded-tb">
+                                    <div class="ui left labeled action input m-container-form">
+                                        <label class="ui compact teal basic label m-text-form">性别</label>
+                                        <div class="ui fluid selection dropdown">
+                                            <input type="hidden" name="gender" th:value="*{gender}">
+                                            <i class="dropdown icon m-text-form"></i>
+                                            <div class="default text m-text-form">性别</div>
+                                            <div class="menu">
+                                                <div class="item" data-value="0" th:data-value="${gender}">-</div>
+                                                <div class="item" data-value="1" th:data-value="${gender}">男</div>
+                                                <div class="item" data-value="2" th:data-value="${gender}">女</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="required field m-padded-tb">
+                                    <div class="ui left labeled input">
+                                        <div class="ui selection compact teal basic label m-container-form">
+                                            <div class="text m-text-form">生日</div>
+                                        </div>
+                                        <input type="text" name="birthday" placeholder="日期格式：2020-05-13" th:value="*{birthday}">
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <div class="required field m-padded-tb">-->
+<!--                                <div class="ui left labeled input">-->
+<!--                                    <div class="ui selection compact teal basic label m-container-form ">-->
+<!--                                        <input type="hidden" value="手机号码" name="phone" th:value="*{title}" >-->
+<!--                                        <div class="text m-text-form">手机号码</div>-->
+<!--                                    </div>-->
+<!--                                    <input type="text" name="title" placeholder="请输入正确的11位手机号码" th:value="*{title}">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="required field m-padded-tb">-->
+<!--                                <div class="ui left labeled input">-->
+<!--                                    <div class="ui selection compact teal basic label m-container-form ">-->
+<!--                                        <input type="hidden" value="电子邮箱" name="mail" th:value="*{title}" >-->
+<!--                                        <div class="text m-text-form">电子邮箱</div>-->
+<!--                                    </div>-->
+<!--                                    <input type="text" name="title" placeholder="邮箱格式：xxxxxxx@xx.com" th:value="*{title}">-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="ui right aligned container">
+                                <button type="button" id="publish-btn" class="ui teal button">确认修改</button>
+                            </div>
+                        </form>
+                        <br>
+                        <br>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+                <br>
+                <br>
+                <br>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>
+
+<!--底部footer-->
+<footer class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid">
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">校点</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">关于我们</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced ">
+                <h4 class="ui inverted header">我要办活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">办活动前必读</a>
+                    <a href="#" class="item">发布/管理活动</a>
+                    <a href="#" class="item">售票/推广活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">推荐活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">最新活动</a>
+                    <a href="#" class="item">热门活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">联系我们</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">客服电话</a>
+                    <b class="m-opacity-mini">8888-888888</b>
+                    <a href="#" class="item">商务合作</a>
+                    <a href="#" class="item">新媒体推广</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">版权所有：上海师范大学美如画团队</p>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">校点 v1.0 © xiaodian.com All Rights Reserved.</p>
+    </div>
+
+</footer>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647;"><i class="fa fa-angle-up"></i></a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script>
+    $('.menu.toggle').click(function(){
+        $('.m-item').toggleClass('m-mobile-hide')
+    });
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+    $('#publish-btn').click(function () {
+        $('#user-form').submit();
+    });
+
+    $('.menu .item').tab();
+    $('.ui.form').form({
+        fields : {
+            firstPicture : {
+                identifier: 'firstPicture',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入头像'
+                }]
+            },
+            nickname : {
+                identifier: 'nickname',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入昵称'
+                }]
+            },
+            nickname : {
+                identifier: 'info',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入个人说明'
+                }]
+            },
+            gender : {
+                identifier: 'gender',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请选择性别'
+                }]
+            },
+            typeId : {
+                identifier: 'type.id',
+                rules: [{
+                    type: 'empty',
+                    prompt: '标题：请输入所在地区'
+                }]
+            },
+        }
+    });
+
+    $('.message .close').on('click', function () {
+            $(this).closest('.message')
+                    .transition('fade');
+        });
+</script>
+
+</body>
+</html>

@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by guodi on 2020-04-09 22:06
@@ -14,27 +17,54 @@ import javax.persistence.*;
 @Table(name = "t_user")
 public class User {
 
+    public User() {
+    }
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    public Long id;
+    @GeneratedValue
+    private Long id;
 
     @Column(name="username")
-    public String username;
+    private String username;
+
+    @Column(name = "nickname")
+    private String nickname;
 
     @Column(name="password")
-    public String password;
+    private String password;
 
     @Column(name="gender")
-    public String gender;
+    private String gender;
 
     @Column(name="role")
-    public String role;
+    private String role;
 
+    @Column(name="email")
+    private String email;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="create_time")
-    public String createTime;
+    private Date createTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="update_time")
-    public String updateTime;
+    private Date updateTime;
+
+    private String avatar;
+
+    @Column(name = "picture")
+    private String picture;
+
+    private Integer type;
+
+    private String info;
+
+    @Column(name = "birthday")
+    private String birthday;
+
+    @OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
+    private List<Activity> activities = new ArrayList<>();
+
 
     @Override
     public String toString() {
@@ -44,8 +74,10 @@ public class User {
                 ", password='" + password + '\'' +
                 ", gender='" + gender + '\'' +
                 ", role='" + role + '\'' +
-                ", createtime='" + createTime + '\'' +
-                ", updatetime='" + updateTime + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", activities=" + activities +
                 '}';
     }
 }

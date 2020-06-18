@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by guodi on 2020-04-08 11:14
@@ -15,8 +17,11 @@ import java.util.Date;
 @Table(name = "t_comment")
 public class Comment {
 
+    public Comment() {
+    }
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(name="comment_content")
@@ -33,6 +38,19 @@ public class Comment {
 
     @Column(name="update_time")
     private Date updateTime;
+
+    @ManyToOne
+    private Activity activity;
+
+    @OneToMany(mappedBy = "parentComment",fetch=FetchType.EAGER)
+    private List<Comment> replyComments = new ArrayList<>();
+
+    @ManyToOne
+    private Comment parentComment;
+
+    private boolean adminComment;
+
+    private String avatar;
 
     @Override
     public String toString() {

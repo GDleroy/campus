@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>活动发布</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+        <link rel="stylesheet" href="./static/css/me.css">
+        <style>p.indent{ padding-left: 5em }</style>
+
+        <!--bootstrap-->
+        <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<!--导航-->
+<nav th:replace="_fragments :: menu(4)" class="ui inverted attached segment m-padded-tb-fit">
+
+</nav>
+<!--中间内容-->
+<div  class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <h3>基本信息</h3>
+        <hr>
+        <form id="blog-form" action="#" th:object="${activity}" th:action="@{/activityInput}" method="post" class="ui form " enctype="multipart/form-data">
+            <input type="hidden" name="published" th:value="*{published}">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class="required field m-padded-tb">
+                <div class="ui left labeled input">
+                    <div class="ui selection compact teal basic label m-container-form ">
+<!--                        <input type="hidden" value="活动名称" name="activityFlag" th:value="*{activityFlag}" >-->
+                        <div class="text m-text-form">活动名称</div>
+                    </div>
+                    <input type="text" name="activityTitle" placeholder="不少于5个字，最多50个字" th:value="*{activityTitle}">
+                </div>
+            </div>
+
+            <div class="required field m-padded-tb">
+                <div class="ui left labeled action input m-container-form">
+                    <label class="ui compact teal basic label m-text-form">分类</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="type.id" th:value="*{type}!=null ? *{type.id}">
+                        <i class="dropdown icon m-text-form"></i>
+                        <div class="default text m-text-form">分类</div>
+                        <div class="menu">
+                            <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">互联网</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="required field m-padded-tb">
+                    <div class="ui left labeled input m-container-form ">
+                        <div class="ui selection compact teal basic label">
+                            <div class="text m-text-form">举办开始时间</div>
+                        </div>
+                        <input type="date" name="activityDate" placeholder="请选择时间" th:value="*{activityDate}">
+                    </div>
+                </div>
+
+                <div class="required field m-padded-tb">
+                    <div class="ui left labeled input m-container-form ">
+                        <div class="ui selection compact teal basic label">
+                            <div class="text m-text-form">举办截止时间</div>
+                        </div>
+                        <input type="date" name="endDate" placeholder="请选择时间" th:value="*{endDate}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="required field m-padded-tb">
+                <div class="ui left labeled input m-container-form ">
+                    <div class="ui selection compact teal basic label">
+                        <div class="text m-text-form">主办方</div>
+                    </div>
+                    <input type="text" name="owner" placeholder="请填写主办方名称" th:value="*{owner}">
+                </div>
+            </div>
+
+            <div class="required field m-padded-tb">
+                <div class="ui left labeled input m-container-form ">
+                    <div class="ui selection compact teal basic label">
+                        <div class="text m-text-form">活动注意</div>
+                    </div>
+                    <input type="text" name="attention" placeholder="请填写几句活动注意，以便推荐简介" th:value="*{attention}">
+                </div>
+            </div>
+
+            <div class="required field m-padded-tb">
+                <div class="ui left labeled input m-container-form">
+                    <label class="ui teal basic label m-text-form">活动海报</label>
+                    <input type="file" class="m-text-form" name="file"  placeholder="请上传海报图片">
+                </div>
+            </div>
+
+            <div class="required field ">
+                <label class="ui teal basic label ">活动内容</label>
+            </div>
+            <div class="required field ">
+                <textarea name="description" th:text="*{description}" placeholder="请填写活动的具体情况……" maxlength="400"></textarea>
+            </div>
+
+
+
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
+<!--                <button type="button" id="save-btn" class="ui secondary button">保存</button>-->
+                <button type="button" id="publish-btn" class="ui teal button">发布</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!--底部footer-->
+<footer class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid">
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">校点</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">关于我们</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced ">
+                <h4 class="ui inverted header">我要办活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">办活动前必读</a>
+                    <a href="#" class="item">发布/管理活动</a>
+                    <a href="#" class="item">售票/推广活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">推荐活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">最新活动</a>
+                    <a href="#" class="item">热门活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">联系我们</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">客服电话</a>
+                    <b class="m-opacity-mini">8888-888888</b>
+                    <a href="#" class="item">商务合作</a>
+                    <a href="#" class="item">新媒体推广</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">版权所有：上海师范大学美如画团队</p>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">校点 v1.0 © xiaodian.com All Rights Reserved.</p>
+    </div>
+
+</footer>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647;"><i class="fa fa-angle-up"></i></a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script>
+
+    //初始化Markdown编辑器
+    var contentEditor;
+    $(function() {
+        contentEditor = editormd("md-content", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+//        path    : "../static/lib/editormd/lib/"
+            path    : "/lib/editormd/lib/"
+        });
+    });
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+
+    $('#save-btn').click(function () {
+        $('[name="published"]').val(false);
+        $('#blog-form').submit();
+    });
+
+
+    $('#publish-btn').click(function () {
+        $('[name="published"]').val(true);
+        $('#blog-form').submit();
+    });
+
+
+
+    $('.ui.form').form({
+        fields : {
+            activityTitle : {
+                identifier: 'activityTitle',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入活动名称'
+                }]
+            },
+            typeId : {
+                identifier: 'type.id',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入活动分类'
+                }]
+            },
+            holder : {
+                identifier: 'holder',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请填写主办方信息'
+                }]
+            },
+            spot : {
+                identifier: 'spot',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入活动亮点'
+                }]
+            },
+            firstPicture : {
+                identifier: 'firstPicture',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入活动海报'
+                }]
+            },
+            description : {
+                identifier: 'description',
+                rules: [{
+                    type : 'empty',
+                    prompt: '标题：请输入活动详情'
+                }]
+            }
+
+        }
+    });
+
+</script>
+
+</body>
+</html>

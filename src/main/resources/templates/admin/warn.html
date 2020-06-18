@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>举报管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="./static/css/me.css">
+    <style>p.indent{ padding-left: 5em }</style>
+
+</head>
+
+<body>
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(3)" class="ui inverted attached segment m-padded-tb-fit">
+
+</nav>
+<!--中间内容-->
+<div  class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <h3>举报管理</h3>
+        <div id="table-container">
+            <table th:fragment="reviewList" class="ui celled compact teal table ">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>活动名称</th>
+                    <th>举报内容</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="warning,iterStat : ${page.content}">
+                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${warning.activityTitle}">金砖国际会议</td>
+                    <td th:text="${warning.warnContent}" >
+                        <div style =  'width:150px;
+                                        height:auto;
+                                      '>
+                            <p style='overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;'>
+                                举报内容举报内容举报内容
+                            </p>
+                        </div>
+                    </td>
+                    <td th:text="${warning.updateTime}">2017-10-02 09:45</td>
+                    <td>
+                        <a href="#" th:href="@{/activity/{id}(id=${warning.id})}" class="ui mini teal basic button">核实</a>
+                        <a href="#" th:href="@{/activities/{id}/delete(id=${warning.id})}" class="ui mini red basic button">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="7">
+                        <div class="ui mini pagination menu" th:if="${page.totalPages}>1" >
+                            <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
+                            <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
+                        </div>
+
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+
+            <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i>
+                <div class="header">提示：</div>
+                <p th:text="${message}">恭喜，操作成功！</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!--底部footer-->
+<footer class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid">
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">校点</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">关于我们</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced ">
+                <h4 class="ui inverted header">我要办活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">办活动前必读</a>
+                    <a href="#" class="item">发布/管理活动</a>
+                    <a href="#" class="item">售票/推广活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">推荐活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">最新活动</a>
+                    <a href="#" class="item">热门活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">联系我们</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">客服电话</a>
+                    <b class="m-opacity-mini">8888-888888</b>
+                    <a href="#" class="item">商务合作</a>
+                    <a href="#" class="item">新媒体推广</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">版权所有：上海师范大学美如画团队</p>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">校点 v1.0 © xiaodian.com All Rights Reserved.</p>
+    </div>
+
+</footer>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647;"><i class="fa fa-angle-up"></i></a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script>
+    $('.menu.toggle').click(function(){
+        $('.m-item').toggleClass('m-mobile-hide')
+    });
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+</script>
+
+</body>
+</html>

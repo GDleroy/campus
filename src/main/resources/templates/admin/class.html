@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="./static/css/me.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>p.indent{ padding-left: 5em }</style>
+
+</head>
+
+<body>
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(2)" class="ui inverted attached segment m-padded-tb-fit">
+
+</nav>
+<!--中间内容-->
+<div  class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <h3>分类管理</h3>
+        <div id="table-container">
+            <table th:fragment="classList" class="ui celled compact teal table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>分类名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="class,iterStat : ${page.content}">
+                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${class.name}">互联网</td>
+                    <td>
+<!--                        <a href="#" th:href="@{/admin/classes/{id}/input(id=${class.id})}" class="ui mini teal basic button">编辑</a>-->
+                        <a href="#" th:href="@{/types/{id}/delete(id=${class.id})}" class="ui mini red basic button">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="7">
+                        <div class="ui mini pagination menu" th:if="${page.totalPages}>1" >
+                            <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
+                            <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
+                        </div>
+
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+
+            <button type="button" class="ui teal basic button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">新增分类</button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="type-form" action="#" th:object="${type}" th:action="@{/saveType}" method="post">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">新增分类名称</label>
+                                    <input type="text" class="form-control" name="name"  id="recipient-name">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="button" id="save-btn" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i>
+                <div class="header">提示：</div>
+                <p th:text="${message}">恭喜，操作成功！</p>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!--底部footer-->
+<footer class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid">
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">校点</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">关于我们</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced ">
+                <h4 class="ui inverted header">我要办活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">办活动前必读</a>
+                    <a href="#" class="item">发布/管理活动</a>
+                    <a href="#" class="item">售票/推广活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">推荐活动</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">最新活动</a>
+                    <a href="#" class="item">热门活动</a>
+                </div>
+            </div>
+            <div class="four wide column m-text-spaced">
+                <h4 class="ui inverted header">联系我们</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">客服电话</a>
+                    <b class="m-opacity-mini">8888-888888</b>
+                    <a href="#" class="item">商务合作</a>
+                    <a href="#" class="item">新媒体推广</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">版权所有：上海师范大学美如画团队</p>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">校点 v1.0 © xiaodian.com All Rights Reserved.</p>
+    </div>
+
+</footer>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647;"><i class="fa fa-angle-up"></i></a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script>
+    $('#save-btn').click(function () {
+        $('#type-form').submit();
+    });
+    $('.menu.toggle').click(function(){
+        $('.m-item').toggleClass('m-mobile-hide')
+    });
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+    })
+</script>
+
+</body>
+</html>
